@@ -1,0 +1,29 @@
+---
+- name: Create swap space
+  become: true
+  become_user: root
+  command: dd if=/dev/zero of={{swap_file}} bs=1M count={{swap_size_mb}}
+  args:  
+    creates: '{{swap_file}}'
+
+- name: Change swap file permissions
+  become: true
+  become_user: root
+  file:
+    path: '{{swap_file}}'
+    mode: 0600
+
+- name: Make swap
+  become: true
+  become_user: root
+  command: mkswap {{swap_file}}
+
+- name: Enable swap
+  include: '{{swap_init_method | default("systemd")}}.yml'
+
+- name: Set swapiness
+  become: true
+  become_user: root
+  sysctl:
+    name: vm.swapiness
+    value: '{{swap_swapiness | default(30)}}'

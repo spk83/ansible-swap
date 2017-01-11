@@ -1,0 +1,15 @@
+---
+- name: Add systemd drop-in for swap
+  become: true
+  become_user: root
+  template:
+    dest: /etc/fstab
+    regexp: '{{swap_file}}'
+    line: '{{swap_file}} none swap sw 0 0'
+    state: present
+
+- name: init-system reload
+  when: swap_systemd_dropin|changed
+  become: yes
+  become_user: root
+  command: systemctl daemon-reload
