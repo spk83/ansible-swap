@@ -5,14 +5,14 @@
   register: swap_systemd_dropin
   template:
     src: swapfile.j2
-    dest: /etc/systemd/system/{{swap_file}}.swap
+    dest: /etc/systemd/system/{{swap_file_name}}.swap
 
 - name: start systemctl unit for swap file
   become: yes
   become_user: root
   when: swap_systemd_dropin|changed
   systemd:
-    name: '{{swap_file}}.swap'
+    name: '{{swap_file_name}}.swap'
     daemon_reload: yes
     state: restarted
     enabled: True
