@@ -3,6 +3,7 @@
   become: true
   become_user: root
   command: dd if=/dev/zero of={{swap_file}} bs=1M count={{swap_size_mb}}
+  register: swap_file_created
   args:  
     creates: '{{swap_file}}'
 
@@ -16,6 +17,7 @@
 - name: Make swap
   become: true
   become_user: root
+  when: swap_file_created | changed
   command: mkswap {{swap_file}}
 
 - name: Enable swap

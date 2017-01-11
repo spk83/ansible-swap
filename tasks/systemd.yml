@@ -15,3 +15,4 @@
     name: '{{swap_file}}.swap'
     daemon_reload: yes
     state: restarted
+    enabled: True
