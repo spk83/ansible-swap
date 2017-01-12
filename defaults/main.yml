@@ -4,3 +4,4 @@ swap_file_dir: /
 swap_file_name: swapfile
 swap_size_mb: 8192 
 #swap_init_method : systemd
+#swap_swappiness: 30

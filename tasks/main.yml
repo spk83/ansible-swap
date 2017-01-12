@@ -27,5 +27,6 @@
   become: true
   become_user: root
   sysctl:
-    name: vm.swapiness
-    value: '{{swap_swapiness | default(30)}}'
+    name: vm.swappiness
+    value: '{{swap_swappiness | default(30)}}'
+    sysctl_set: yes
